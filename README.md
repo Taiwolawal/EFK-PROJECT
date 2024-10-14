@@ -98,9 +98,24 @@ helm repo add elastic https://helm.elastic.co
 helm search repo elastic
 ```
 
-![image](https://github.com/user-attachments/assets/5a4a41e0-5fb4-4a05-822b-715e07924b5a)
-
 ![image](https://github.com/user-attachments/assets/cbd10d22-cdbc-48d4-ab8f-99ebc362e576)
+
+```
+helm install elasticsearch \
+ --set replicas=2 \
+ --set service.type=LoadBalancer \
+ --set volumeClaimTemplate.storageClassName=ebs-gp3 \
+ --set volumeClaimTemplate.resources.requests.storage=5Gi \
+ --set persistence.labels.enabled=true \
+ --set persistence.labels.customLabel=elasticsearch-pv \
+ elastic/elasticsearch -n efk
+```
+
+![image](https://github.com/user-attachments/assets/9b8dabd3-130f-4809-9dfe-8716b508ac40)
+
+![image](https://github.com/user-attachments/assets/6c23f4fe-ed07-4ba4-8269-29ecd119060d)
+
+
 
 
 
