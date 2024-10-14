@@ -56,18 +56,6 @@ aws iam attach-role-policy \
 ```
 
 ```
-helm repo add aws-ebs-csi-driver https://kubernetes-sigs.github.io/aws-ebs-csi-driver/
-helm repo update
-helm search repo aws-ebs-csi-driver
-helm install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
-    --namespace kube-system
-```
-
-![image](https://github.com/user-attachments/assets/06fe713d-2346-46bc-a9d1-41f5f916d734)
-
-![image](https://github.com/user-attachments/assets/b449a164-e14a-4e8b-b494-34f0fcd4bca4)
-
-```
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -90,6 +78,19 @@ kubectl create secret generic aws-secret \
 ```
 
 ![image](https://github.com/user-attachments/assets/424920bf-1521-4c3b-8974-b22293e2fc30)
+
+```
+helm repo add aws-ebs-csi-driver https://kubernetes-sigs.github.io/aws-ebs-csi-driver/
+helm repo update
+helm search repo aws-ebs-csi-driver
+helm install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
+    --namespace kube-system
+```
+
+![image](https://github.com/user-attachments/assets/06fe713d-2346-46bc-a9d1-41f5f916d734)
+
+![image](https://github.com/user-attachments/assets/b449a164-e14a-4e8b-b494-34f0fcd4bca4)
+
 
 
 
