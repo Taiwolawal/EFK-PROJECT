@@ -140,7 +140,7 @@ kubectl get secrets --namespace=efk kibana-kibana-es-token -ojsonpath='{.data.to
 
 ![image](https://github.com/user-attachments/assets/5e575d6c-5913-4e3b-888c-10b81715ea0b)
 
-![image](https://github.com/user-attachments/assets/a0330489-8079-4673-99e2-df4de8c4ae75)
+![image](https://github.com/user-attachments/assets/480eb211-3382-4fb6-ab79-1b3ca98c14c6)
 
 ![image](https://github.com/user-attachments/assets/0f2f9551-c69c-445e-bf79-61bc24018281)
 
