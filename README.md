@@ -126,10 +126,26 @@ kubectl get secrets --namespace=efk elasticsearch-master-credentials -ojsonpath=
 
 ```
 helm install kibana --set service.type=LoadBalancer elastic/kibana -n efk
-kubectl get secrets --namespace=efk elasticsearch-master-credentials -ojsonpath=’{.data.password}’ | base64 -d
-kubectl get secrets --namespace=efk kibana-kibana-es-token -ojsonpath=’{.data.token}’ | base64 -d
+kubectl get secrets --namespace=efk elasticsearch-master-credentials -ojsonpath='{.data.password}' | base64 -d
+kubectl get secrets --namespace=efk kibana-kibana-es-token -ojsonpath='{.data.token}' | base64 -d
 
 ```
+![image](https://github.com/user-attachments/assets/4714d44e-35a0-4532-ada1-f5f5870b4b39)
+
+![image](https://github.com/user-attachments/assets/582a49c2-99f5-4433-80b2-f77114bad765)
+
+![image](https://github.com/user-attachments/assets/d775383f-53c0-4ce2-9146-9f683647d1e7)
+
+![image](https://github.com/user-attachments/assets/6599cb23-f235-4f08-88b8-3c09a519dbea)
+
+![image](https://github.com/user-attachments/assets/5e575d6c-5913-4e3b-888c-10b81715ea0b)
+
+![image](https://github.com/user-attachments/assets/a0330489-8079-4673-99e2-df4de8c4ae75)
+
+![image](https://github.com/user-attachments/assets/0f2f9551-c69c-445e-bf79-61bc24018281)
+
+
+
 
 
 
