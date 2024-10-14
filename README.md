@@ -92,6 +92,17 @@ helm install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
 ![image](https://github.com/user-attachments/assets/b449a164-e14a-4e8b-b494-34f0fcd4bca4)
 
 
+```
+kubectl create namespace efk
+helm repo add elastic https://helm.elastic.co
+helm search repo elastic
+```
+
+![image](https://github.com/user-attachments/assets/5a4a41e0-5fb4-4a05-822b-715e07924b5a)
+
+
+
+
 
 
 
