@@ -100,6 +100,8 @@ helm search repo elastic
 
 ![image](https://github.com/user-attachments/assets/5a4a41e0-5fb4-4a05-822b-715e07924b5a)
 
+![image](https://github.com/user-attachments/assets/cbd10d22-cdbc-48d4-ab8f-99ebc362e576)
+
 
 
 
