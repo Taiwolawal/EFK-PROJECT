@@ -67,4 +67,44 @@ helm install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
 
 ![image](https://github.com/user-attachments/assets/b449a164-e14a-4e8b-b494-34f0fcd4bca4)
 
+```
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ebs-gp3
+provisioner: ebs.csi.aws.com
+parameters:
+  type: gp3
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+```
+
+![image](https://github.com/user-attachments/assets/9dad9913-3707-4686-87e0-55e4ec19aefb)
+
+```
+export AWS_ACCESS_KEY_ID=<key> && export AWS_SECRET_ACCESS_KEY=<key>
+
+kubectl create secret generic aws-secret \
+--from-literal "key_id=${AWS_ACCESS_KEY_ID}" \
+--from-literal "access_key=${AWS_SECRET_ACCESS_KEY}"
+```
+
+![image](https://github.com/user-attachments/assets/424920bf-1521-4c3b-8974-b22293e2fc30)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
