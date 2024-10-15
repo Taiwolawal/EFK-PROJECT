@@ -153,6 +153,16 @@ To validate Kibana is able to connect to ElasticSearch (also UI might not open)
 ![image](https://github.com/user-attachments/assets/23423c67-32d6-4eb8-899f-0d806ea400e2)
 
 
+Deploy a log event generator
+
+![image](https://github.com/user-attachments/assets/9dc839be-5ccd-4e43-afc2-9998cf2d94fe)
+
+```
+helm repo add fluent https://fluent.github.io/helm-charts
+helm show values fluent/fluent-bit > fluentbit-values.yaml
+```
+
+
 
 
 
