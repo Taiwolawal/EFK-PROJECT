@@ -157,9 +157,18 @@ Deploy a log event generator
 
 ![image](https://github.com/user-attachments/assets/9dc839be-5ccd-4e43-afc2-9998cf2d94fe)
 
+![image](https://github.com/user-attachments/assets/e35b8d09-3399-44a7-80b6-3295ced5a5fe)
+
+
 ```
 helm repo add fluent https://fluent.github.io/helm-charts
 helm show values fluent/fluent-bit > fluentbit-values.yaml
+```
+
+![image](https://github.com/user-attachments/assets/9dc84974-273f-4ae0-a5f7-7e71bb6a0ac0)
+
+```
+helm install fluent-bit fluent/fluent-bit -f fluentbit-values.yaml -n efk
 ```
 
 
