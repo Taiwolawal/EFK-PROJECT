@@ -146,6 +146,10 @@ kubectl get secrets --namespace=efk kibana-kibana-es-token -ojsonpath='{.data.to
 
 ![image](https://github.com/user-attachments/assets/dc63df4f-93f3-4ee3-b509-b7d02eb66e7c)
 
+To validate Kibana is able to connect to ElasticSearch
+
+![image](https://github.com/user-attachments/assets/fa7e6715-cf59-4ae7-ac58-b47a3e71313a)
+
 
 
 
