@@ -170,6 +170,9 @@ helm show values fluent/fluent-bit > fluentbit-values.yaml
 ```
 helm install fluent-bit fluent/fluent-bit -f fluentbit-values.yaml -n efk
 ```
+Getting error with the fluentbit pod
+
+![image](https://github.com/user-attachments/assets/c8d9bb62-508f-479d-a7cc-aef8f8c8482a)
 
 
 
