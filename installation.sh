@@ -2,7 +2,7 @@ eksctl create cluster \
   --name=efk-cluster \
   --region=us-east-1 \
   --node-type=t3.medium \
-  --nodes=2 \
+  --nodes=3 \
   --node-labels=name=node-efk \
   --node-volume-size=30
 
