@@ -165,7 +165,8 @@ helm repo add fluent https://fluent.github.io/helm-charts
 helm show values fluent/fluent-bit > fluentbit-values.yaml
 ```
 
-![image](https://github.com/user-attachments/assets/9dc84974-273f-4ae0-a5f7-7e71bb6a0ac0)
+![image](https://github.com/user-attachments/assets/046991c5-5a06-4a2f-88cf-69cbb50cb1bd)
+
 
 ```
 helm install fluent-bit fluent/fluent-bit -f fluentbit-values.yaml -n efk
