@@ -220,6 +220,23 @@ helm install fluent-bit fluent/fluent-bit -f fluentbit-values.yaml -n efk
 
 ![image](https://github.com/user-attachments/assets/54a8840e-f1b4-444e-8ebd-208c1304e7c6)
 
+![image](https://github.com/user-attachments/assets/e26cb75d-200e-40bc-9a65-64aa01ab6114)
+
+![image](https://github.com/user-attachments/assets/25cbd979-c9dd-45a7-93aa-51b3ee1134ac)
+
+![image](https://github.com/user-attachments/assets/afa25e7a-1c26-4446-8c13-617b72a7048e)
+
+![image](https://github.com/user-attachments/assets/e5f6b28f-1539-4771-afba-535aaccffd70)
+
+![image](https://github.com/user-attachments/assets/0679207b-0503-4343-bc18-d4efa4ef4f6a)
+
+## Deploying a Login App and Kibana on Kubernetes
+
+![image](https://github.com/user-attachments/assets/4fbdd00f-0767-47c8-9bf7-00710cb7f134)
+
+
+
+
 
 
 
