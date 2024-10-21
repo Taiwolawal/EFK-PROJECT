@@ -122,6 +122,8 @@ kubectl get secrets --namespace=efk elasticsearch-master-credentials -ojsonpath=
 
 ![image](https://github.com/user-attachments/assets/2d3d757a-c9c7-447c-b2fe-d9d733e0cdb6)
 
+![image](https://github.com/user-attachments/assets/9d453a2f-f9f0-4cd2-a26a-4b305f159414)
+
 ![image](https://github.com/user-attachments/assets/a8dc2e5b-d6bd-4471-8614-15aa7eb4c240)
 
 ```
