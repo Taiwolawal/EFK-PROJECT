@@ -23,7 +23,7 @@ aws iam create-policy \
 
 aws iam attach-role-policy \
     --policy-arn arn:aws:iam::759623136685:policy/AmazonEKS_EBS_CSI_Driver_Policy \
-    --role-name eksctl-efk-cluster-nodegroup-ng-a9-NodeInstanceRole-cGzpfeMbOJ6X
+    --role-name eksctl-efk-cluster-nodegroup-ng-06-NodeInstanceRole-yooZ0iP1N5Sw
 
 helm repo add aws-ebs-csi-driver https://kubernetes-sigs.github.io/aws-ebs-csi-driver/
 helm repo update
