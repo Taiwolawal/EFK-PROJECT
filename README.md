@@ -238,6 +238,8 @@ helm install fluent-bit fluent/fluent-bit -f fluentbit-values.yaml -n efk
 
 ![image](https://github.com/user-attachments/assets/5b90d94b-c4fa-4cb6-bff8-1d7f38875bef)
 
+![image](https://github.com/user-attachments/assets/c7b1e079-8321-4f9b-84ce-8119f493100f)
+
 
 ```
 helm upgrade fluent-bit fluent/fluent-bit -f fluentbit-values.yaml -n efk
