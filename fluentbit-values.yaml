@@ -404,8 +404,16 @@ config:
     [INPUT]
         Name tail
         Path /var/log/containers/app-event-simulator*.log
+        Tag event-simulator
         multiline.parser docker, cri
-        Tag kube.*
+        Mem_Buf_Limit 5MB
+        Skip_Long_Lines On
+
+    [INPUT]
+        Name tail
+        Path /var/log/containers/simple-webapp-deployment*.log
+        Tag web-deployment
+        multiline.parser docker, cri
         Mem_Buf_Limit 5MB
         Skip_Long_Lines On
 
@@ -435,16 +443,31 @@ config:
   outputs: |
     [OUTPUT]
         Name es
-        Match kube.*
         Type  _doc
         Host elasticsearch-master
         Port 9200
         HTTP_User elastic
-        HTTP_Passwd ZpBZXtHsW4bK1PDo
+        HTTP_Passwd xO2iAWOtl9xHgoPj
         tls On
         tls.verify Off
         Logstash_Format On
-        Logstash_Prefix logstash
+        Logstash_Prefix event-simulator
+        Match event-simulator
+        Retry_Limit False
+        Suppress_Type_Name On
+
+    [OUTPUT]
+        Name es
+        Type  _doc
+        Host elasticsearch-master
+        Port 9200
+        HTTP_User elastic
+        HTTP_Passwd xO2iAWOtl9xHgoPj
+        tls On
+        tls.verify Off
+        Logstash_Format On
+        Logstash_Prefix web-deployment
+        Match web-deployment
         Retry_Limit False
         Suppress_Type_Name On
 
@@ -455,7 +478,7 @@ config:
         Host elasticsearch-master
         Port 9200
         HTTP_User elastic
-        HTTP_Passwd ZpBZXtHsW4bK1PDo
+        HTTP_Passwd xO2iAWOtl9xHgoPj
         tls On
         tls.verify Off
         Logstash_Format On
