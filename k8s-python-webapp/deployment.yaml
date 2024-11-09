@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: login-app
   labels:
-    app: flogin-app
+    app: login-app
 spec:
   replicas: 1
   selector:
