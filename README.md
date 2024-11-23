@@ -75,16 +75,18 @@ aws iam create-policy \
     --policy-document file://ebs_csi_policy.json
 ```
 
+Attach the Policy to the EKS NodeRole.
+
 ![image](https://github.com/user-attachments/assets/b0dcd4e2-0b72-476b-9180-df272ecd3d53)
 
-
-Attach the Policy to the EKS Node Role, identify the EKS noderole, and attach the policy.
 
 ```
 aws iam attach-role-policy \
     --policy-arn arn:aws:iam::759623136685:policy/AmazonEKS_EBS_CSI_Driver_Policy \
     --role-name eksctl-efk-cluster-nodegroup-ng-a9-NodeInstanceRole-cGzpfeMbOJ6X
 ```
+
+Create a Storage Class for Elasticsearch
 
 ```
 apiVersion: storage.k8s.io/v1
