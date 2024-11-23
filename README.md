@@ -2,15 +2,37 @@
 
 This project is focused on setting up and using the powerful EFK stack to monitor and manage our applications.
 
-The EFK stack is a popular logging and monitoring solution that efficiently collects, analyzes, and visualizes logs from your applications and infrastructure. There purposes are:
+The EFK stack is a popular logging and monitoring solution that efficiently collects, analyzes, and visualizes logs from your applications and infrastructure. Their purposes are:
 
 - Elasticsearch: Store and search your logs efficiently.
 - Fluent Bit: Collect and forward your logs from various sources.
 - Kibana: Visualize and explore your logs to gain valuable insights.
 
+The way it works is Fluentbit reads the logs from the application container log files present on the nodes and pushes these logs to Elasticsearch which handles storing and searching of logs efficiently. Then Kibana will be used as a visualization tool (UI) for checking those logs.
+
+There are numerous log management tools such as Logstash, Fluentd, etc. I will prefer Fluenbit for this project because it boasts impressive lightweight performance. In the screenshot below are major differences.
+
+![image](https://github.com/user-attachments/assets/c0cc68b7-d0e9-4f42-9738-8b62ad06b7cb)
+
+Requirements for the project:
+- A Kubernetes Cluster
+- Helm
+  
+Provision your Kubernetes cluster using eksctl command.
 
 ![image](https://github.com/user-attachments/assets/3f534e5a-14fa-47d7-9e73-37ecb2e073e6)
 
+To deploy Elasticsearch in an Amazon EKS cluster effectively, certain prerequisites must be in place. Elasticsearch, functioning as a database, is typically deployed as a stateful set, which requires the use of Persistent Volume Claims (PVCs). These PVCs must be backed by storage resources to ensure reliable and persistent data storage.
+
+To provision Elastic Block Store (EBS) volumes for these PVCs within the EKS cluster, the following components are essential:
+
+-  StorageClass: A storage class configured with the AWS EBS provisioner is required. This storage class defines the parameters for provisioning EBS volumes, such as volume type, size, and access modes.
+-  AWS EBS CSI Driver: The EBS Container Storage Interface (CSI) driver must be installed and configured within the EKS cluster. This driver allows Kubernetes to communicate with AWS and dynamically provision EBS volumes as requested by PVCs.
+
+Before deploying the EBS CSI Driver, ensure your EKS nodes have the necessary permissions to interact with EBS. Create an IAM Policy that allows the EBS CSI driver to call AWS services on your behalf.
+
+ebs_csi_policy.json:
+ 
 ```
 {
   "Version": "2012-10-17",
@@ -56,6 +78,7 @@ aws iam create-policy \
 ![image](https://github.com/user-attachments/assets/b0dcd4e2-0b72-476b-9180-df272ecd3d53)
 
 
+Attach the Policy to the EKS Node Role, identify the EKS noderole, and attach the policy.
 
 ```
 aws iam attach-role-policy \
