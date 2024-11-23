@@ -102,7 +102,11 @@ volumeBindingMode: WaitForFirstConsumer
 
 ![image](https://github.com/user-attachments/assets/9dad9913-3707-4686-87e0-55e4ec19aefb)
 
+Installing the AWS EBS CSI Driver: 
+
 ```
+To create the required secret to store your AWS access key and secret key, follow these steps:
+
 export AWS_ACCESS_KEY_ID=<key> && export AWS_SECRET_ACCESS_KEY=<key>
 
 kubectl create secret generic aws-secret \
