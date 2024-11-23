@@ -108,6 +108,7 @@ Installing the AWS EBS CSI Driver:
 
 ```
 eksctl utils associate-iam-oidc-provider --region=us-east-1 --cluster=efk-cluster --approve
+
 eksctl create iamserviceaccount \
   --name ebs-csi-controller-sa \
   --namespace kube-system \
@@ -116,11 +117,16 @@ eksctl create iamserviceaccount \
   --approve \
   --region us-east-1
 
+kubectl get serviceaccount -n kube-system | grep ebs-csi-controller-sa
+kubectl describe serviceaccount ebs-csi-controller-sa -n kube-system
+
 ```
 
 ![image](https://github.com/user-attachments/assets/a19343eb-8e75-4248-b560-f02598a14ba7)
 
 ![image](https://github.com/user-attachments/assets/16d014a7-d0ca-4bfc-b23b-b89e6e36f8a5)
+
+Once the OIDC provider is associated and the service account is created, we can proceed with the Helm installation of the AWS EBS CSI driver.
 
 
 ```
@@ -128,7 +134,9 @@ helm repo add aws-ebs-csi-driver https://kubernetes-sigs.github.io/aws-ebs-csi-d
 helm repo update
 helm search repo aws-ebs-csi-driver
 helm install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
-    --namespace kube-system
+    --namespace kube-system \
+    --set serviceAccount.controller.create=false \
+    --set serviceAccount.controller.name=ebs-csi-controller-sa
 ```
 
 ![image](https://github.com/user-attachments/assets/06fe713d-2346-46bc-a9d1-41f5f916d734)
