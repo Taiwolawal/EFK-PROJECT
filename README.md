@@ -1,5 +1,13 @@
 # EFK-PROJECT
 
+This project is focused on setting up and using the powerful EFK stack to monitor and manage our applications.
+
+The EFK stack is a popular logging and monitoring solution that efficiently collects, analyzes, and visualizes logs from your applications and infrastructure. There purposes are:
+
+- Elasticsearch: Store and search your logs efficiently.
+- Fluent Bit: Collect and forward your logs from various sources.
+- Kibana: Visualize and explore your logs to gain valuable insights.
+
 
 ![image](https://github.com/user-attachments/assets/3f534e5a-14fa-47d7-9e73-37ecb2e073e6)
 
