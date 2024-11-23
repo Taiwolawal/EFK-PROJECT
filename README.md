@@ -104,17 +104,24 @@ volumeBindingMode: WaitForFirstConsumer
 
 Installing the AWS EBS CSI Driver: 
 
+- Associate the IAM OIDC Provider to allow the Kubernetes service account (ebs-csi-controller-sa) to assume the IAM role with the necessary permissions.
+
 ```
-To create the required secret to store your AWS access key and secret key, follow these steps:
+eksctl utils associate-iam-oidc-provider --region=us-east-1 --cluster=efk-cluster --approve
+eksctl create iamserviceaccount \
+  --name ebs-csi-controller-sa \
+  --namespace kube-system \
+  --cluster efk-cluster \
+  --attach-policy-arn arn:aws:iam::759623136685:policy/AmazonEKS_EBS_CSI_Driver_Policy \
+  --approve \
+  --region us-east-1
 
-export AWS_ACCESS_KEY_ID=<key> && export AWS_SECRET_ACCESS_KEY=<key>
-
-kubectl create secret generic aws-secret \
---from-literal "key_id=${AWS_ACCESS_KEY_ID}" \
---from-literal "access_key=${AWS_SECRET_ACCESS_KEY}"
 ```
 
-![image](https://github.com/user-attachments/assets/424920bf-1521-4c3b-8974-b22293e2fc30)
+![image](https://github.com/user-attachments/assets/a19343eb-8e75-4248-b560-f02598a14ba7)
+
+![image](https://github.com/user-attachments/assets/16d014a7-d0ca-4bfc-b23b-b89e6e36f8a5)
+
 
 ```
 helm repo add aws-ebs-csi-driver https://kubernetes-sigs.github.io/aws-ebs-csi-driver/
