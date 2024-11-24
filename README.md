@@ -128,7 +128,9 @@ helm search repo elastic
 
 ![image](https://github.com/user-attachments/assets/cbd10d22-cdbc-48d4-ab8f-99ebc362e576)
 
-Ensure whenever you want to install both ElasticSearch and Kibana, you make use of this same version
+Please make sure whenever you want to install both ElasticSearch and Kibana, you can use this same version.
+
+When installing ElasticSearch, specify the name of the storage class (ebs-gp3) we deployed earlier and the storage value (5Gi) we are interested in.
 
 ```
 helm install elasticsearch \
