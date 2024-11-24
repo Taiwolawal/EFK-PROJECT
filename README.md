@@ -128,6 +128,8 @@ helm search repo elastic
 
 ![image](https://github.com/user-attachments/assets/cbd10d22-cdbc-48d4-ab8f-99ebc362e576)
 
+Ensure whenever you want to install both ElasticSearch and Kibana, you make use of this same version
+
 ```
 helm install elasticsearch \
  --set replicas=2 \
@@ -142,6 +144,8 @@ helm install elasticsearch \
 ![image](https://github.com/user-attachments/assets/9b8dabd3-130f-4809-9dfe-8716b508ac40)
 
 ![image](https://github.com/user-attachments/assets/6c23f4fe-ed07-4ba4-8269-29ecd119060d)
+
+Get the credentials to login to ElasticSearch
 
 ```
 kubectl get secrets --namespace=efk elasticsearch-master-credentials -ojsonpath='{.data.username}' | base64 -d
