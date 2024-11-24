@@ -29,62 +29,79 @@ To provision Elastic Block Store (EBS) volumes for these PVCs within the EKS clu
 -  StorageClass: A storage class configured with the AWS EBS provisioner is required. This storage class defines the parameters for provisioning EBS volumes, such as volume type, size, and access modes.
 -  AWS EBS CSI Driver: The EBS Container Storage Interface (CSI) driver must be installed and configured within the EKS cluster. This driver allows Kubernetes to communicate with AWS and dynamically provision EBS volumes as requested by PVCs.
 
-Before deploying the EBS CSI Driver, ensure your EKS nodes have the necessary permissions to interact with EBS. Create an IAM Policy that allows the EBS CSI driver to call AWS services on your behalf.
+AWS EBS in EKS setup procedure:
+- Create the required IAM role for the EBS CSI Driver.
+- Install the EBS CSI Driver using EKS Addons.
 
-ebs_csi_policy.json:
- 
+Create the OIDC Provider for the EKS cluster
+
+```
+eksctl utils associate-iam-oidc-provider \
+  --region <region> \
+  --cluster <cluster-name> \
+  --approve
+```
+Confirm the cluster’s OIDC provider ``` aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text ```
+
+![image](https://github.com/user-attachments/assets/514aaedc-1de0-4835-83fc-a9e742b9d19d)
+
+Create the IAM role, granting the AssumeRoleWithWebIdentity action.
+
+aws-ebs-csi-driver-trust-policy.json
+
 ```
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:CreateVolume",
-        "ec2:AttachVolume",
-        "ec2:DetachVolume",
-        "ec2:DeleteVolume",
-        "ec2:CreateSnapshot",
-        "ec2:DeleteSnapshot",
-        "ec2:DescribeVolumes",
-        "ec2:DescribeSnapshots",
-        "ec2:DescribeInstances",
-        "ec2:DescribeAvailabilityZones",
-        "ec2:DescribeVolumeStatus",
-        "ec2:DescribeVolumeAttribute",
-        "ec2:DescribeSnapshotAttribute",
-        "ec2:DescribeInstanceAttribute",
-        "ec2:DescribeInstanceCreditSpecifications",
-        "ec2:DescribeVolumeTypes",
-        "ec2:DescribeVpcAttribute",
-        "ec2:DescribeVpcEndpoints",
-        "ec2:DescribeVpcs",
-        "ec2:ModifyVolume",
-        "ec2:ModifyVolumeAttribute",
-        "ec2:ModifyInstanceAttribute"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
-```
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Principal": {
+          "Federated": "arn:aws:iam::759623136685:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/C709658D21C436D9420852F5AAB9CE45"
+        },
+        "Action": "sts:AssumeRoleWithWebIdentity",
+        "Condition": {
+          "StringEquals": {
+            "oidc.eks.region-code.amazonaws.com/id/C709658D21C436D9420852F5AAB9CE45:aud": "sts.amazonaws.com",
+            "oidc.eks.region-code.amazonaws.com/id/C709658D21C436D9420852F5AAB9CE45:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
+          }
+        }
+      }
+    ]
+  }
 
 ```
-aws iam create-policy \
-    --policy-name AmazonEKS_EBS_CSI_Driver_Policy \
-    --policy-document file://ebs_csi_policy.json
+
+![image](https://github.com/user-attachments/assets/a8e436c1-e4c6-4faa-8834-468c7d47fec6)
+
+Create the role.
+
+```
+aws iam create-role \
+      --role-name AmazonEKS_EBS_CSI_DriverRole \
+      --assume-role-policy-document file://"aws-ebs-csi-driver-trust-policy.json"
+
 ```
 
-Attach the Policy to the EKS NodeRole.
-
-![image](https://github.com/user-attachments/assets/b0dcd4e2-0b72-476b-9180-df272ecd3d53)
-
+Attach the AWS managed policy to the role 
 
 ```
 aws iam attach-role-policy \
-    --policy-arn arn:aws:iam::759623136685:policy/AmazonEKS_EBS_CSI_Driver_Policy \
-    --role-name eksctl-efk-cluster-nodegroup-ng-a9-NodeInstanceRole-cGzpfeMbOJ6X
+      --policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
+      --role-name AmazonEKS_EBS_CSI_DriverRole
 ```
+
+It is recommended to install the Amazon EBS CSI driver through the Amazon EKS add-on to improve security and reduce the amount of work
+
+```
+aws eks create-addon \
+  --cluster-name efk-cluster \
+  --addon-name aws-ebs-csi-driver \
+  --addon-version v1.37.0-eksbuild.1 \
+```
+
+![image](https://github.com/user-attachments/assets/5be97519-c203-4516-8dc1-94fd09bd9a15)
+
+![image](https://github.com/user-attachments/assets/80015eb8-0838-4595-813f-c37b84d592fc)
 
 Create a Storage Class for Elasticsearch
 
@@ -101,47 +118,6 @@ volumeBindingMode: WaitForFirstConsumer
 ```
 
 ![image](https://github.com/user-attachments/assets/9dad9913-3707-4686-87e0-55e4ec19aefb)
-
-Installing the AWS EBS CSI Driver: 
-
-- Associate the IAM OIDC Provider to allow the Kubernetes service account (ebs-csi-controller-sa) to assume the IAM role with the necessary permissions.
-
-```
-eksctl utils associate-iam-oidc-provider --region=us-east-1 --cluster=efk-cluster --approve
-
-eksctl create iamserviceaccount \
-  --name ebs-csi-controller-sa \
-  --namespace kube-system \
-  --cluster efk-cluster \
-  --attach-policy-arn arn:aws:iam::759623136685:policy/AmazonEKS_EBS_CSI_Driver_Policy \
-  --approve \
-  --region us-east-1
-
-kubectl get serviceaccount -n kube-system | grep ebs-csi-controller-sa
-kubectl describe serviceaccount ebs-csi-controller-sa -n kube-system
-
-```
-
-![image](https://github.com/user-attachments/assets/a19343eb-8e75-4248-b560-f02598a14ba7)
-
-![image](https://github.com/user-attachments/assets/16d014a7-d0ca-4bfc-b23b-b89e6e36f8a5)
-
-Once the OIDC provider is associated and the service account is created, we can proceed with the Helm installation of the AWS EBS CSI driver.
-
-
-```
-helm repo add aws-ebs-csi-driver https://kubernetes-sigs.github.io/aws-ebs-csi-driver/
-helm repo update
-helm search repo aws-ebs-csi-driver
-helm install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
-    --namespace kube-system \
-    --set serviceAccount.controller.create=false \
-    --set serviceAccount.controller.name=ebs-csi-controller-sa
-```
-
-![image](https://github.com/user-attachments/assets/06fe713d-2346-46bc-a9d1-41f5f916d734)
-
-![image](https://github.com/user-attachments/assets/b449a164-e14a-4e8b-b494-34f0fcd4bca4)
 
 
 ```
