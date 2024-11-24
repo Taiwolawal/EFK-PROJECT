@@ -10,26 +10,7 @@ alias k=kubectl
 
 k apply -f storageclass.yaml
 
-export AWS_ACCESS_KEY_ID=<key> && export AWS_SECRET_ACCESS_KEY=<key>
 
-kubectl create secret generic aws-secret \
---from-literal "key_id=${AWS_ACCESS_KEY_ID}" \
---from-literal "access_key=${AWS_SECRET_ACCESS_KEY}"
-
-
-aws iam create-policy \
-    --policy-name AmazonEKS_EBS_CSI_Driver_Policy \
-    --policy-document file://ebs_csi_policy.json
-
-aws iam attach-role-policy \
-    --policy-arn arn:aws:iam::759623136685:policy/AmazonEKS_EBS_CSI_Driver_Policy \
-    --role-name eksctl-efk-cluster-nodegroup-ng-06-NodeInstanceRole-yooZ0iP1N5Sw
-
-helm repo add aws-ebs-csi-driver https://kubernetes-sigs.github.io/aws-ebs-csi-driver/
-helm repo update
-helm search repo aws-ebs-csi-driver
-helm install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
-    --namespace kube-system
 
 kubectl create namespace efk
 helm repo add elastic https://helm.elastic.co
