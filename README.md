@@ -162,29 +162,25 @@ kubectl get secrets --namespace=efk kibana-kibana-es-token -ojsonpath='{.data.to
 
 ![image](https://github.com/user-attachments/assets/dc63df4f-93f3-4ee3-b509-b7d02eb66e7c)
 
-To validate Kibana is able to connect to ElasticSearch (also UI might not open)
-
-![image](https://github.com/user-attachments/assets/634664ff-9553-4c27-978e-1117c34f83cf)
-
-![image](https://github.com/user-attachments/assets/23423c67-32d6-4eb8-899f-0d806ea400e2)
-
-
 Deploy a log event generator
 
 ![image](https://github.com/user-attachments/assets/9dc839be-5ccd-4e43-afc2-9998cf2d94fe)
 
 ![image](https://github.com/user-attachments/assets/e35b8d09-3399-44a7-80b6-3295ced5a5fe)
 
+Deploy Fluentbit using helm and edit the values.yaml
 
 ```
 helm repo add fluent https://fluent.github.io/helm-charts
 helm show values fluent/fluent-bit > fluentbit-values.yaml
 ```
+Update the input section with the path where the app-event-simulator container log is located
 
-![image](https://github.com/user-attachments/assets/046991c5-5a06-4a2f-88cf-69cbb50cb1bd)
+![image](https://github.com/user-attachments/assets/cbcc5154-17c4-4821-8210-09c238c0fb10)
 
-![image](https://github.com/user-attachments/assets/f0ae7298-54aa-460f-a5f2-293602ef4e9d)
+Also update the  output section with the highlighted part in the screenshot which includes the password of Elasticsearch, port, logstash prefix which is the way to identify the logs in Kibana
 
+![image](https://github.com/user-attachments/assets/d2690eb5-c2b5-4bcc-90da-8ed62f56347f)
 
 ```
 helm install fluent-bit fluent/fluent-bit -f fluentbit-values.yaml -n efk
@@ -194,19 +190,21 @@ helm install fluent-bit fluent/fluent-bit -f fluentbit-values.yaml -n efk
 
 ![image](https://github.com/user-attachments/assets/5cabcc02-5b3f-49cd-87a7-6d23463111b9)
 
-![image](https://github.com/user-attachments/assets/f4fad6f0-3ac9-4cf9-a7bc-3ade423c2ed5)
+Fluentbit already getting the logs from the container
 
-![image](https://github.com/user-attachments/assets/c2352f72-82e0-465a-886f-8d7bcc3c6cdb)
+![image](https://github.com/user-attachments/assets/8980546d-d13b-4009-880c-c0265f8e0f4d)
 
-![image](https://github.com/user-attachments/assets/3d9aeee2-d08b-4e93-b879-105b42390ed1)
+Now, lets display the logs
 
 ![image](https://github.com/user-attachments/assets/a9c1406e-3f39-4f56-84c5-418c2c8f74c4)
 
 ![image](https://github.com/user-attachments/assets/c346bdc4-578e-43cf-966b-9df98bb6e57e)
 
-![image](https://github.com/user-attachments/assets/3104c998-cf9b-4490-8018-eee862ffb4e8)
+![image](https://github.com/user-attachments/assets/64588dc7-b0f1-42de-89f5-40462f837975)
 
-![image](https://github.com/user-attachments/assets/23dbd734-b95e-4695-b6c6-65f2c21d3219)
+Give the log a name ```app-event-log``` and ensure the name given in the index pattern matches the index in the screenshot
+
+![image](https://github.com/user-attachments/assets/13d94dc9-9854-4909-b333-83a752a42c6f)
 
 ![image](https://github.com/user-attachments/assets/4f5c9d02-f772-4641-8030-cdc07dfcdffc)
 
