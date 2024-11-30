@@ -20,7 +20,7 @@ Requirements for the project:
   
 Provision your Kubernetes cluster using eksctl command.
 
-![image](https://github.com/user-attachments/assets/3f534e5a-14fa-47d7-9e73-37ecb2e073e6)
+![image](https://github.com/user-attachments/assets/531aeb17-1603-4419-8736-45bedea743da)
 
 To deploy Elasticsearch in an Amazon EKS cluster effectively, certain prerequisites must be in place. Elasticsearch, functioning as a database, is typically deployed as a stateful set, which requires the use of Persistent Volume Claims (PVCs). These PVCs must be backed by storage resources to ensure reliable and persistent data storage.
 
@@ -47,7 +47,7 @@ Confirm the cluster’s OIDC provider ``` aws eks describe-cluster --name my-clu
 
 Create IAM role for Service Account: create an IAM role which can be assumed by Kubernetes Service Accounts, the authorized principal should be the Kubernetes OIDC provider, and to allow only a specific service account, we can use policy conditions to restrict access for selected ones.
 
-Create the IAM role, granting the AssumeRoleWithWebIdentity action. Update the json file with account-id, region the last digit from the OIDC ```96EB298B212A248710459183292D0B25```.
+Create the IAM role, granting the AssumeRoleWithWebIdentity action. Update the json file with ```account-id```, ```region``` the last digit from the OIDC ```96EB298B212A248710459183292D0B25```.
 
 aws-ebs-csi-driver-trust-policy.json
 
@@ -73,7 +73,7 @@ aws iam attach-role-policy \
       --role-name AmazonEKS_EBS_CSI_DriverRole
 ```
 
-![image](https://github.com/user-attachments/assets/0f6e575e-bdd2-48ca-970e-bb533268991c)
+
 
 
 It is recommended to install the Amazon EBS CSI driver through the Amazon EKS add-on to improve security and reduce the amount of work
@@ -85,7 +85,7 @@ aws eks create-addon \
   --addon-version v1.37.0-eksbuild.1 \
 ```
 
-![image](https://github.com/user-attachments/assets/5be97519-c203-4516-8dc1-94fd09bd9a15)
+![image](https://github.com/user-attachments/assets/9b4227d1-7793-415a-81dd-71f5fc39e09d)
 
 ![image](https://github.com/user-attachments/assets/80015eb8-0838-4595-813f-c37b84d592fc)
 
@@ -114,7 +114,7 @@ helm search repo elastic
 
 ![image](https://github.com/user-attachments/assets/cbd10d22-cdbc-48d4-ab8f-99ebc362e576)
 
-Please make sure whenever you want to install both ElasticSearch and Kibana, you can use this same version.
+Please make sure whenever you want to install both ElasticSearch and Kibana, make sure that they are of the same version just like ```8.5.1``` for both.
 
 When installing ElasticSearch, specify the name of the storage class (ebs-gp3) we deployed earlier and the storage value (5Gi) we are interested in.
 
@@ -152,17 +152,11 @@ kubectl get secrets --namespace=efk elasticsearch-master-credentials -ojsonpath=
 kubectl get secrets --namespace=efk kibana-kibana-es-token -ojsonpath='{.data.token}' | base64 -d
 
 ```
-![image](https://github.com/user-attachments/assets/4714d44e-35a0-4532-ada1-f5f5870b4b39)
+![image](https://github.com/user-attachments/assets/f9815a35-ba0a-4156-8034-a0cae4ef1a91)
 
-![image](https://github.com/user-attachments/assets/582a49c2-99f5-4433-80b2-f77114bad765)
+![image](https://github.com/user-attachments/assets/ac34e8df-2660-44d8-8e2b-6ddeda31b467)
 
-![image](https://github.com/user-attachments/assets/d775383f-53c0-4ce2-9146-9f683647d1e7)
-
-![image](https://github.com/user-attachments/assets/6599cb23-f235-4f08-88b8-3c09a519dbea)
-
-![image](https://github.com/user-attachments/assets/5e575d6c-5913-4e3b-888c-10b81715ea0b)
-
-![image](https://github.com/user-attachments/assets/480eb211-3382-4fb6-ab79-1b3ca98c14c6)
+![image](https://github.com/user-attachments/assets/f10d4f37-80d6-4813-9524-ca7c6996bb3c)
 
 ![image](https://github.com/user-attachments/assets/0f2f9551-c69c-445e-bf79-61bc24018281)
 
