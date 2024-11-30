@@ -43,35 +43,15 @@ eksctl utils associate-iam-oidc-provider \
 ```
 Confirm the cluster’s OIDC provider ``` aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text ```
 
-![image](https://github.com/user-attachments/assets/514aaedc-1de0-4835-83fc-a9e742b9d19d)
+![image](https://github.com/user-attachments/assets/441a72af-1179-49c3-995c-5ad3592a6cdc)
 
-Create the IAM role, granting the AssumeRoleWithWebIdentity action.
+Create IAM role for Service Account: create an IAM role which can be assumed by Kubernetes Service Accounts, the authorized principal should be the Kubernetes OIDC provider, and to allow only a specific service account, we can use policy conditions to restrict access for selected ones.
+
+Create the IAM role, granting the AssumeRoleWithWebIdentity action. Update the json file with account-id, region the last digit from the OIDC ```96EB298B212A248710459183292D0B25```.
 
 aws-ebs-csi-driver-trust-policy.json
 
-```
-{
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Effect": "Allow",
-        "Principal": {
-          "Federated": "arn:aws:iam::759623136685:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/C709658D21C436D9420852F5AAB9CE45"
-        },
-        "Action": "sts:AssumeRoleWithWebIdentity",
-        "Condition": {
-          "StringEquals": {
-            "oidc.eks.region-code.amazonaws.com/id/C709658D21C436D9420852F5AAB9CE45:aud": "sts.amazonaws.com",
-            "oidc.eks.region-code.amazonaws.com/id/C709658D21C436D9420852F5AAB9CE45:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
-          }
-        }
-      }
-    ]
-  }
-
-```
-
-![image](https://github.com/user-attachments/assets/a8e436c1-e4c6-4faa-8834-468c7d47fec6)
+![image](https://github.com/user-attachments/assets/b18fb40f-58a8-415a-941c-222ed803cfd7)
 
 Create the role.
 
@@ -82,6 +62,9 @@ aws iam create-role \
 
 ```
 
+![image](https://github.com/user-attachments/assets/316c2d34-08b7-476d-8da3-b1b1154b6631)
+
+
 Attach the AWS managed policy to the role 
 
 ```
@@ -89,6 +72,9 @@ aws iam attach-role-policy \
       --policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
       --role-name AmazonEKS_EBS_CSI_DriverRole
 ```
+
+![image](https://github.com/user-attachments/assets/0f6e575e-bdd2-48ca-970e-bb533268991c)
+
 
 It is recommended to install the Amazon EBS CSI driver through the Amazon EKS add-on to improve security and reduce the amount of work
 
