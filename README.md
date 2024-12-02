@@ -204,7 +204,9 @@ Now, lets display the logs
 
 Give the log a name ```app-event-log``` and ensure the name given in the index pattern matches the index in the screenshot
 
-![image](https://github.com/user-attachments/assets/13d94dc9-9854-4909-b333-83a752a42c6f)
+![image](https://github.com/user-attachments/assets/30682f09-173a-4d8d-ac67-cd57b24868e4)
+
+Now we have Kibana display our logs, in which we can also query the search bar with keys define in the logs
 
 ![image](https://github.com/user-attachments/assets/4f5c9d02-f772-4641-8030-cdc07dfcdffc)
 
