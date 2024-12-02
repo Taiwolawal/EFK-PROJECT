@@ -1,4 +1,4 @@
-# Default values for fluent-bit.
+s# Default values for fluent-bit.
 
 # kind -- DaemonSet or Deployment
 kind: DaemonSet
@@ -182,6 +182,7 @@ dashboards:
   labelValue: 1
   annotations: {}
   namespace: ""
+  deterministicUid: false
 
 lifecycle: {}
 #   preStop:
@@ -363,6 +364,29 @@ networkPolicy:
 
 luaScripts: {}
 
+# luaScripts:
+#   setIndex.lua: |
+#     function set_index(tag, timestamp, record)
+#         index = "taiwo-"
+#         if record["kubernetes"] ~= nil then
+#             if record["kubernetes"]["namespace_name"] == "logging" then
+#                 return -1, timestamp, record  -- Skip logs from the logging namespace
+#             end
+#             if record["kubernetes"]["namespace_name"] ~= nil then
+#                 if record["kubernetes"]["container_name"] ~= nil then
+#                     record["es_index"] = index
+#                         .. record["kubernetes"]["namespace_name"]
+#                         .. "-"
+#                         .. record["kubernetes"]["container_name"]
+#                     return 1, timestamp, record
+#                 end
+#                 record["es_index"] = index
+#                     .. record["kubernetes"]["namespace_name"]
+#                 return 1, timestamp, record
+#             end
+#         end
+#         return 1, timestamp, record
+#     end
 
 ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file
 config:
@@ -382,17 +406,9 @@ config:
   inputs: |
     [INPUT]
         Name tail
-        Path /var/log/containers/app-event-simulator*.log
-        Tag event-simulator
+        Path /var/log/containers/*.log
         multiline.parser docker, cri
-        Mem_Buf_Limit 5MB
-        Skip_Long_Lines On
-
-    [INPUT]
-        Name tail
-        Path /var/log/containers/simple-webapp-deployment*.log
-        Tag web-deployment
-        multiline.parser docker, cri
+        Tag kube.*
         Mem_Buf_Limit 5MB
         Skip_Long_Lines On
 
@@ -412,55 +428,28 @@ config:
         K8S-Logging.Parser On
         K8S-Logging.Exclude On
 
+    # [FILTER]
+    #     Name lua
+    #     Match kube.*
+    #     script /fluent-bit/scripts/setIndex.lua
+    #     call set_index
 
   ## https://docs.fluentbit.io/manual/pipeline/outputs
   outputs: |
     [OUTPUT]
         Name es
-        Type  _doc
+        Match kube.*
         Host elasticsearch-master
-        Port 9200
-        HTTP_User elastic
-        HTTP_Passwd Ws4GdkyDB4Ms0dey
-        tls On
-        tls.verify Off
         Logstash_Format On
-        Logstash_Prefix event-simulator
-        Match event-simulator
         Retry_Limit False
-        Suppress_Type_Name On
-    
+
     [OUTPUT]
         Name es
         Match host.*
-        Type  _doc
         Host elasticsearch-master
-        Port 9200
-        HTTP_User elastic
-        HTTP_Passwd Ws4GdkyDB4Ms0dey
-        tls On
-        tls.verify Off
         Logstash_Format On
         Logstash_Prefix node
         Retry_Limit False
-        Suppress_Type_Name On
-
-    [OUTPUT]
-        Name es
-        Type  _doc
-        Host elasticsearch-master
-        Port 9200
-        HTTP_User elastic
-        HTTP_Passwd Ws4GdkyDB4Ms0dey
-        tls On
-        tls.verify Off
-        Logstash_Format On
-        Logstash_Prefix web-deployment
-        Match web-deployment
-        Retry_Limit False
-        Suppress_Type_Name On
-
-    
 
   ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/upstream-servers
   ## This configuration is deprecated, please use `extraFiles` instead.
@@ -551,3 +540,4 @@ hotReload:
     digest:
     pullPolicy: IfNotPresent
   resources: {}
+

@@ -32,3 +32,4 @@ spec:
       volumes:
       - name: log-volume
         emptyDir: {}
+

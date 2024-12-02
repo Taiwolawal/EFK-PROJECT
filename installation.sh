@@ -8,6 +8,17 @@ eksctl create cluster \
 
 alias k=kubectl
 
+
+
+
+
+
+
+
+
+
+
+
 k apply -f storageclass.yaml
 
 

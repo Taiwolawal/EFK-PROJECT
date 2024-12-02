@@ -4,13 +4,13 @@
       {
         "Effect": "Allow",
         "Principal": {
-          "Federated": "arn:aws:iam::759623136685:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/C709658D21C436D9420852F5AAB9CE45"
+          "Federated": "arn:aws:iam::759623136685:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/96EB298B212A248710459183292D0B25"
         },
         "Action": "sts:AssumeRoleWithWebIdentity",
         "Condition": {
           "StringEquals": {
-            "oidc.eks.region-code.amazonaws.com/id/C709658D21C436D9420852F5AAB9CE45:aud": "sts.amazonaws.com",
-            "oidc.eks.region-code.amazonaws.com/id/C709658D21C436D9420852F5AAB9CE45:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
+            "oidc.eks.region-code.amazonaws.com/id/96EB298B212A248710459183292D0B25:aud": "sts.amazonaws.com",
+            "oidc.eks.region-code.amazonaws.com/id/96EB298B212A248710459183292D0B25:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
           }
         }
       }
