@@ -244,31 +244,6 @@ Now we have Kibana display our logs, in which we can also query the search bar w
 
 ![image](https://github.com/user-attachments/assets/0679207b-0503-4343-bc18-d4efa4ef4f6a)
 
-## Deploying a Login App and Kibana on Kubernetes
-
-![image](https://github.com/user-attachments/assets/4fbdd00f-0767-47c8-9bf7-00710cb7f134)
-
-![image](https://github.com/user-attachments/assets/b691aee0-ea69-4942-8f00-7a305b5fed23)
-
-![image](https://github.com/user-attachments/assets/5b90d94b-c4fa-4cb6-bff8-1d7f38875bef)
-
-![image](https://github.com/user-attachments/assets/c7b1e079-8321-4f9b-84ce-8119f493100f)
-
-
-```
-helm upgrade fluent-bit fluent/fluent-bit -f fluentbit-values.yaml -n efk
-```
-
-![image](https://github.com/user-attachments/assets/c7678712-61af-4a53-ac79-5ea4145fb515)
-
-![image](https://github.com/user-attachments/assets/f2ba539b-4665-4aa0-8ea6-e505c24b495b)
-
-![image](https://github.com/user-attachments/assets/98b0dc7a-81d4-4828-a2eb-dd6d09501149)
-
-![image](https://github.com/user-attachments/assets/01d14081-a084-4108-b8aa-856e875bca28)
-
-
-![image](https://github.com/user-attachments/assets/a43976bb-05ab-4079-9559-cbcb77cb9a51)
 
 
 
